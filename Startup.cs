@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Firefly.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -24,6 +26,10 @@ namespace AngularMix2017
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddDbContext<CharacterContext>
+            (options=> options.UseSqlServer
+            ("Server=localhost;Database=Firefly;User ID=sa;Password=Passw0rd;MultipleActiveResultSets=true;Connect Timeout=30;"));
+           services.AddScoped<FireflyService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
