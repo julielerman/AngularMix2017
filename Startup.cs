@@ -35,6 +35,7 @@ namespace AngularMix2017
             }
 
             app.UseMvc();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
         }
     }
