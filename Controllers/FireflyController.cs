@@ -34,7 +34,7 @@
        }
 
        [HttpPost ("CreateWithEntrance")]
-       public Character CreateCharacterWithEntrance (string characterName, int movieMinute, string scene, string description) {
+       public string CreateCharacterWithEntrance (string characterName, int movieMinute, string scene, string description) {
          return _service.CreateNewCharacter (characterName, movieMinute, scene, description);
        }
 
