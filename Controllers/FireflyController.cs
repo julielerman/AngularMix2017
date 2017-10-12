@@ -18,60 +18,62 @@
        }
 
        [HttpGet]
-       public IEnumerable<String[]> Get () {
-         return _service.GetListOfCharacterNamesAndIds ();
+       public IActionResult Get () {
+         var characterList = new ObjectResult(_service.GetListOfCharacterNamesAndIds());
+         return new ObjectResult(characterList);
        }
 
        [HttpGet ("{id}", Name = "GetDetails")]
-       public Character Get (int id) {
-         return _service.GetFullCharacterDetails (id);
-       }
+       public IActionResult Get (int id) {
+         var character= _service.GetFullCharacterDetails (id);
+         return new ObjectResult(character);
+        }
 
        [HttpPost ("Create")]
-       public string CreateCharacter (string name) {
-         return _service.CreateNewCharacter (name);
+       public IActionResult CreateCharacter (string name) {
+         return new ObjectResult(_service.CreateNewCharacter (name));
         
        }
 
        [HttpPost ("CreateWithEntrance")]
-       public string CreateCharacterWithEntrance (string characterName, int movieMinute, string scene, string description) {
-         return _service.CreateNewCharacter (characterName, movieMinute, scene, description);
+       public IActionResult CreateCharacterWithEntrance (string characterName, int movieMinute, string scene, string description) {
+         return new ObjectResult(_service.CreateNewCharacter (characterName, movieMinute, scene, description));
        }
 
        [HttpPost ("CreateFromJson")]
-       public string CreateCharacterFromJson([FromBody]CharacterViewModel characterJson){
-         return _service.InsertCharacterGraph(characterJson);
+       public IActionResult CreateCharacterFromJson([FromBody]CharacterViewModel characterJson){
+         return new ObjectResult(_service.InsertCharacterGraph(characterJson));
        }
 
 
        [HttpPost ("AddQuote")]
-       public ActionResult AddQuote (int characterId, string quoteText) {
+       public IActionResult AddQuote (int characterId, string quoteText) {
          var result = _service.AddQuoteToCharacter (characterId, quoteText);
          if (result == 1) {
            return new ContentResult { Content = "Quote Added", StatusCode = StatusCodes.Status201Created };
          } else {
            return new ContentResult {
              Content = "Quote Not Added. Possible reason: Character no longer exists",
-               StatusCode = StatusCodes.Status304NotModified
+               StatusCode = StatusCodes.Status400BadRequest
            };
          }
        }
 
        [HttpPost ("AddQuoteAsync")]
-       public async Task<int> AddQuoteAsync (int characterId, string quoteText) {
+       public async Task<IActionResult> AddQuoteAsync (int characterId, string quoteText) {
          var result = await _service.AddQuoteToCharacterAsync (characterId, quoteText);
-         if (result == 1) { return StatusCodes.Status201Created; } else { return StatusCodes.Status412PreconditionFailed; }
+            if (result == 1) { return new StatusCodeResult(201); } else { return new StatusCodeResult(400); }
        }
 
        [HttpPost ("AddEntrance")]
-       public int AddEntrance (int characterId, int movieMinute, string scene, string description) {
+       public IActionResult AddEntrance (int characterId, int movieMinute, string scene, string description) {
            var result = _service.AddEntranceToCharacter (characterId, movieMinute, scene, description);
-           if (result == 1) { return StatusCodes.Status201Created; } else { return StatusCodes.Status412PreconditionFailed; }
+           if (result == 1) { return new StatusCodeResult(201); } else { return new StatusCodeResult(400); }
          }
          [HttpPost ("ReplaceEntrance")]
-       public int ReplaceEntrance (int characterId, int movieMinute, string scene, string description) {
+       public IActionResult ReplaceEntrance (int characterId, int movieMinute, string scene, string description) {
          var result = _service.ReplaceEntranceForCharacter (characterId, movieMinute, scene, description);
-         if (result == 1) { return StatusCodes.Status201Created; } else { return StatusCodes.Status412PreconditionFailed; }
+         if (result == 1) { return new StatusCodeResult(201); } else { return new StatusCodeResult(400); }
        }
      }
    }
