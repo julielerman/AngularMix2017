@@ -6,8 +6,9 @@
    using Firefly.Domain;
    using Microsoft.AspNetCore.Http;
    using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
-   namespace AngularMix2017.Controllers {
+namespace AngularMix2017.Controllers {
      [Route ("api/[controller]")]
      public class FireflyController : Controller {
 
@@ -40,11 +41,15 @@
          return new ObjectResult(_service.CreateNewCharacter (characterName, movieMinute, scene, description));
        }
 
-       [HttpPost ("CreateFromJson")]
-       public IActionResult CreateCharacterFromJson([FromBody]CharacterViewModel characterJson){
+      //  [HttpPost ("CreateFromJson")]
+      //  public IActionResult CreateCharacterFromJson([FromBody]CharacterViewModel characterJson){
+      //    return new ObjectResult(_service.InsertCharacterGraph(characterJson));
+      //  }
+
+ [HttpPost ("CreateFromJson2")]
+       public IActionResult CreateCharacterFromJson2([FromBody]JObject characterJson){
          return new ObjectResult(_service.InsertCharacterGraph(characterJson));
        }
-
 
        [HttpPost ("AddQuote")]
        public IActionResult AddQuote (int characterId, string quoteText) {
