@@ -42,12 +42,7 @@ namespace AngularMix2017.Controllers {
          return new ObjectResult(_service.CreateNewCharacter (characterName, movieMinute, scene, description));
        }
 
-      //  [HttpPost ("CreateFromJson")]
-      //  public IActionResult CreateCharacterFromJson([FromBody]CharacterViewModel characterJson){
-      //    return new ObjectResult(_service.InsertCharacterGraph(characterJson));
-      //  }
-
- [HttpPost ("CreateFromJson2")]
+      [HttpPost ("CreateFromJson")]
        public IActionResult CreateCharacterFromJson2([FromBody]JObject characterJson){
          return new ObjectResult(_service.InsertCharacterGraph(characterJson));
          
