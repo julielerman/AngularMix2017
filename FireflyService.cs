@@ -57,8 +57,9 @@ public class FireflyService {
   private bool IsValidCharacterJson (JObject characterJson) {
     JSchemaGenerator generator = new JSchemaGenerator ();
     JSchema schema = generator.Generate (typeof (CharacterViewModel));
-
-    return characterJson.IsValid (schema);
+IList<string> messages;
+bool valid = characterJson.IsValid(schema, out messages);
+    return valid;
 
   }
 
