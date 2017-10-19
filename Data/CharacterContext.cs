@@ -31,7 +31,7 @@ using Firefly.Domain;
         } 
       
       } 
-     
+  
       public override int SaveChanges () { 
           foreach (var entry in ChangeTracker.Entries ()
             .Where (e => e.State == EntityState.Added ||
