@@ -35,8 +35,12 @@ public class FireflyService {
   }
 
   public string InsertCharacterGraph (JObject characterJson) {
-    if (!IsValidCharacterJson (characterJson)) {
-      return "Invalid Json";
+    if (!IsValidCharacterJson (characterJson,out IList<string> messages)) {
+      var returnMessage="Invalid json";
+      foreach(string message in messages){
+        returnMessage+=Environment.NewLine + message;
+      }
+      return returnMessage;
     }
     var characterViewModel = JsonConvert.DeserializeObject<CharacterViewModel> (characterJson.ToString ());
     if (characterViewModel.CharacterName == null) { return "Invalid json"; }
@@ -54,13 +58,12 @@ public class FireflyService {
     _context.SaveChanges ();
     return character.Id.ToString ();
   }
-  private bool IsValidCharacterJson (JObject characterJson) {
+  private bool IsValidCharacterJson (JObject characterJson,out IList<string> messages) {
     JSchemaGenerator generator = new JSchemaGenerator ();
     JSchema schema = generator.Generate (typeof (CharacterViewModel));
-IList<string> messages;
-bool valid = characterJson.IsValid(schema, out messages);
-    return valid;
-
+ // IList<string> messages; 
+    return characterJson.IsValid(schema, out messages);
+   
   }
 
   public int AddQuoteToCharacter (int characterId, string quoteText) {

@@ -7,6 +7,7 @@
    using Microsoft.AspNetCore.Http;
    using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace AngularMix2017.Controllers {
      [Route ("api/[controller]")]
@@ -49,6 +50,7 @@ namespace AngularMix2017.Controllers {
  [HttpPost ("CreateFromJson2")]
        public IActionResult CreateCharacterFromJson2([FromBody]JObject characterJson){
          return new ObjectResult(_service.InsertCharacterGraph(characterJson));
+         
        }
 
        [HttpPost ("AddQuote")]
